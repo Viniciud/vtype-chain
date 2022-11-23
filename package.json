@@ -1,5 +1,5 @@
 {
-  "name": "project-name",
+  "name": "type-coin",
   "version": "0.0.0-development",
   "description": "Template for development of Node applications using typescript   ",
   "main": "dist/index.js",
