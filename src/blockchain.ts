@@ -37,7 +37,7 @@ export class Blockchain {
   }
 
   private get lastBlock(): Block {
-    if (this.chain.length != 1) return this.chain[this.chain.length - 2] as Block
+    if (this.chain.length !== 1) return this.chain[this.chain.length - 2] as Block
 
     return this.chain[0] as Block
   }
@@ -167,7 +167,7 @@ export class Blockchain {
     console.log('BLOCK checkBLock ', block)
     console.log('BLOCK last  ', this.lastBlock)
     // console.log('BLOCK checkBLock data ', block.payload.data)
-    if (block.payload.previousHash != this.lastBlockHash()) {
+    if (block.payload.previousHash !== this.lastBlockHash()) {
       console.error(
         `Block #${block.payload.sequency} it's ${this.lastBlockHash().slice(
           0,

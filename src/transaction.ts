@@ -20,9 +20,11 @@ export class Transaction {
   get fromAddress(): any {
     return this.#fromAddress
   }
+
   get toAddress(): any {
     return this.#toAddress
   }
+
   get amount(): any {
     return this.#amount
   }
@@ -54,7 +56,7 @@ export class Transaction {
     if (this.#signature == null || this.#signature.length === 0) {
       return false
     }
-    if (this.calculateHash() != this.#transactionHash) {
+    if (this.calculateHash() !== this.#transactionHash) {
       console.log('HASH diferente ')
       return false
     }
