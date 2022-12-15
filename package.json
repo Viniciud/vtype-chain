@@ -1,7 +1,7 @@
 {
   "name": "type-coin",
-  "version": "0.1.0-development",
-  "description": "Template for development of Node applications using typescript   ",
+  "version": "0.1.0",
+  "description": "Simple blockchain",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
