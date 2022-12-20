@@ -1,8 +1,15 @@
-// eslint-disable-next-line no-unused-vars
+
+import { Block } from './block';
 import { Blockchain } from './blockchain'
-// eslint-disable-next-line no-unused-vars
+
 import { Transaction } from './transaction'
 
+
+class Typecoin extends Blockchain {}
+export interface TypecoinTx extends Transaction {}
+export class TypecoinBlock extends Block {}
+
+export default Typecoin;
 // const EC = require('elliptic').ec
 // const ec = new EC('secp256k1')
 
