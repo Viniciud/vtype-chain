@@ -1,2 +1,2 @@
-# node-ts-template
-Template project for a TS application (raw)
+# Typecoin é uma biblioteca simples para criação e manipulação de blockchain
+Em progresso...
