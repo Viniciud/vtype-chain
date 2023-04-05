@@ -4,9 +4,10 @@ export declare class Block {
     timestamp: number;
     transactions: Transaction[];
     nonce: number;
-    hash: any;
+    hash: string;
     constructor(timestamp: number, transactions: Transaction[], previousHash?: string);
-    calculateHash(): any;
+    calculateHash(): string;
     mineBlock(difficulty: number): void;
+    calculateHashWithNonce(nonce: number): string;
     hasValidTransactions(): boolean;
 }

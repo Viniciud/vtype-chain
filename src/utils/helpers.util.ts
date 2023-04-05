@@ -5,7 +5,7 @@ export function hash(data: any): string {
   return hash
 }
 
-export function checkedHash({ hash = '', difficulty = 4, prefix = '0' }) {
+export function checkedHash({ hash = '', difficulty = 4, prefix = '0' }): boolean {
   const check: string = prefix.repeat(difficulty)
   return hash.startsWith(check)
 }

@@ -22,14 +22,10 @@ export class Transaction {
   }
 
   signTransaction(signingKey: any) {
-    // You can only send a transaction from the wallet that is linked to your
-    // key. So here we check if the fromAddress matches your publicKey
     if (signingKey.getPublic('hex') !== this.fromAddress) {
       throw new Error('You cannot sign transactions for other wallets!');
     }
 
-    // Calculate the hash of this transaction, sign it with the key
-    // and store it inside the transaction object
     const hashTx = this.calculateHash();
     const sig = signingKey.sign(hashTx, 'base64');
 
@@ -37,9 +33,6 @@ export class Transaction {
   }
 
   isValid() {
-    // If the transaction doesn't have a from address we assume it's a
-    // mining reward and that it's valid. You could verify this in a
-    // different way (special field for instance)
     if (this.fromAddress === null) return true;
 
     if (!this.signature || this.signature.length === 0) {

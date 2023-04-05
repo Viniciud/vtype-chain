@@ -1,16 +1,16 @@
 import { Block } from "./block";
 import { Transaction } from "./transaction";
 export declare class Blockchain {
-    chain: Block[];
+    chain: Array<Block>;
     difficulty: number;
     pendingTransactions: Transaction[];
     miningReward: number;
     constructor();
-    createGenesisBlock(): Block;
-    getLatestBlock(): Block;
+    genesisBlock(): Block;
+    getLastBlock(): Block;
     minePendingTransactions(miningRewardAddress: string): void;
     addTransaction(transaction: Transaction): void;
-    getBalanceOfAddress(address: string): number;
-    getAllTransactionsForWallet(address: string): any[];
-    isChainValid(): boolean;
+    getBalanceByAddress(address: string): number;
+    getAllTransactionsForWallet(address: string): Array<Transaction>;
+    isValid(): boolean;
 }
