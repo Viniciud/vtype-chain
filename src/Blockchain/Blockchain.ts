@@ -2,15 +2,14 @@ import { Block } from "./block";
 import { Transaction } from "./transaction";
 
 export class Blockchain {
-
   chain: Array<Block>;
-  difficulty = 8;
+  difficulty: number;
   pendingTransactions: Transaction[];
   miningReward: number;
 
-  constructor() {
+  letructor(params: any) {
     this.chain = [this.genesisBlock()];
-    this.difficulty = 4;
+    this.difficulty = params?.difficulty ? params?.difficulty : 4;
     this.pendingTransactions = [];
     this.miningReward = 100;
   }
@@ -24,14 +23,14 @@ export class Blockchain {
   }
 
   minePendingTransactions(miningRewardAddress: string): void {
-    const rewardTx = new Transaction(
+    let rewardTx = new Transaction(
       null,
       miningRewardAddress,
       this.miningReward
     );
     this.pendingTransactions.push(rewardTx);
 
-    const block = new Block(
+    let block = new Block(
       Date.now(),
       this.pendingTransactions,
       this.getLastBlock().hash
@@ -56,21 +55,22 @@ export class Blockchain {
       throw new Error('Transaction amount should not to be 0.');
     }
 
-    const walletBalance = this.getBalanceByAddress(transaction.fromAddress);
+    let walletBalance = this.getBalanceByAddress(transaction.fromAddress);
+
     if (walletBalance < transaction.amount) {
       throw new Error('Not enough balance');
     }
 
-    const pendingTrxForWallet = this.pendingTransactions.filter(
+    let pendingTrxForWallet = this.pendingTransactions.filter(
       trx => trx.fromAddress === transaction.fromAddress
     );
 
     if (pendingTrxForWallet.length > 0) {
-      const totalPendingAmount = pendingTrxForWallet
+      let totalPendingAmount = pendingTrxForWallet
         .map(trx => trx.amount)
         .reduce((prev, curr) => prev + curr);
 
-      const totalAmount = totalPendingAmount + transaction.amount;
+      let totalAmount = totalPendingAmount + transaction.amount;
       if (totalAmount > walletBalance) {
         throw new Error('Pending transactions for this wallet is higher than its balance.');
       }
@@ -82,8 +82,8 @@ export class Blockchain {
   getBalanceByAddress(address: string): number {
     let balance = 0;
 
-    for (const block of this.chain) {
-      for (const transaction of block.transactions) {
+    for (let block of this.chain) {
+      for (let transaction of block.transactions) {
         if (transaction.fromAddress === address)
           balance -= transaction.amount;
 
@@ -96,10 +96,10 @@ export class Blockchain {
   }
 
   getAllTransactionsForWallet(address: string): Array<Transaction> {
-    const transactions = [];
+    let transactions = [];
 
-    for (const block of this.chain) {
-      for (const trx of block.transactions) {
+    for (let block of this.chain) {
+      for (let trx of block.transactions) {
         if (trx.fromAddress === address || trx.toAddress === address) {
           transactions.push(trx);
         }
@@ -113,8 +113,8 @@ export class Blockchain {
     if (JSON.stringify(this.genesisBlock()) !== JSON.stringify(this.chain[0])) return false;
 
     for (let i = 1; i < this.chain.length; i++) {
-      const currentBlock = this.chain[i];
-      const previousBlock = this.chain[i - 1];
+      let currentBlock = this.chain[i];
+      let previousBlock = this.chain[i - 1];
 
       if (!currentBlock.hasValidTransactions()) return false;
 

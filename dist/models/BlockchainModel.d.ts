@@ -9,3 +9,10 @@ export interface PayloadModel {
     data: Transaction[];
     previousHash: string;
 }
+export interface TransactionBaseInterface {
+    timestamp: number;
+    signature: any;
+    calculateHash(): string;
+    signTransaction(signingKey: any): void;
+    isValid(): boolean;
+}

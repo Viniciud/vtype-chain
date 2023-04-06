@@ -39,12 +39,11 @@ export class Block {
   }
   
   hasValidTransactions(): boolean {
-    for (const tx of this.transactions) {
+    for (let tx of this.transactions) {
       if (!tx.isValid()) {
         return false;
       }
     }
-
     return true;
   }
 }
