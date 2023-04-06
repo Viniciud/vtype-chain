@@ -1,5 +1,5 @@
 import { TBlock } from "./TBlock";
-export declare class TBlockChain<T> {
+export declare class TBlockchain<T> {
     chain: Array<TBlock<T>>;
     difficulty: number;
     pendingTransactions: Array<T>;

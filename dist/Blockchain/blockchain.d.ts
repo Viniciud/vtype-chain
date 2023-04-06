@@ -5,7 +5,7 @@ export declare class Blockchain {
     difficulty: number;
     pendingTransactions: Transaction[];
     miningReward: number;
-    constructor(params: any);
+    letructor(params: any): void;
     genesisBlock(): Block;
     getLastBlock(): Block;
     minePendingTransactions(miningRewardAddress: string): void;
