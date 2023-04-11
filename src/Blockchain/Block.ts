@@ -1,4 +1,4 @@
-import { Transaction } from './transaction';
+import { Transaction } from './Transaction';
 import sha256 from 'crypto-js/sha256';
 
 export class Block {

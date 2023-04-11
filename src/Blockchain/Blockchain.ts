@@ -1,5 +1,5 @@
-import { Block } from "./block";
-import { Transaction } from "./transaction";
+import { Block } from "./Block";
+import { Transaction } from "./Transaction";
 
 export class Blockchain {
   chain: Array<Block>;
@@ -7,7 +7,7 @@ export class Blockchain {
   pendingTransactions: Transaction[];
   miningReward: number;
 
-  letructor(params: any) {
+  constructor(params: any) {
     this.chain = [this.genesisBlock()];
     this.difficulty = params?.difficulty ? params?.difficulty : 4;
     this.pendingTransactions = [];
