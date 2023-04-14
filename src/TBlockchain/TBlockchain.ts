@@ -14,7 +14,7 @@ export class TBlockchain<T> {
     }
 
     genesisBlock(): TBlock<T> {
-        return new TBlock<T>(null, 0, 0, '');
+        return new TBlock<T>(0, 0, '', null);
     }
 
     getLastBlock(): TBlock<T> {
@@ -26,7 +26,7 @@ export class TBlockchain<T> {
         let nextTimestamp = new Date().getTime() / 1000;
         let previousHash = this.getLastBlock().hash;
 
-        const nextBlock = new TBlock<T>(data, nextIndex, nextTimestamp, previousHash);
+        const nextBlock = new TBlock<T>(nextIndex, nextTimestamp, previousHash, data);
         nextBlock.mineBlock(this.difficulty);
 
         if (this.isValid()) {

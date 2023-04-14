@@ -1,11 +1,11 @@
-import { Block } from "./block";
-import { Transaction } from "./transaction";
+import { Block } from "./Block";
+import { Transaction } from "./Transaction";
 export declare class Blockchain {
     chain: Array<Block>;
     difficulty: number;
     pendingTransactions: Transaction[];
     miningReward: number;
-    letructor(params: any): void;
+    constructor(difficulty?: number);
     genesisBlock(): Block;
     getLastBlock(): Block;
     minePendingTransactions(miningRewardAddress: string): void;

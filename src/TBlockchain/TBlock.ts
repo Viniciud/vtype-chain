@@ -5,10 +5,10 @@ export class TBlock<T> {
     nonce: number;
 
     constructor(
-        public data: T,
         public index: number,
         public timestamp: number,
-        public previousHash: string
+        public previousHash: string,
+        public data: any,
     ) {
         this.hash = this.calculateHash();
         this.nonce = 0;

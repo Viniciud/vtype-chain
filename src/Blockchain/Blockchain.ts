@@ -7,10 +7,10 @@ export class Blockchain {
   pendingTransactions: Transaction[];
   miningReward: number;
 
-  constructor(params: any) {
+  constructor(difficulty: number = 4) {
     this.chain = [this.genesisBlock()];
-    this.difficulty = params?.difficulty ? params?.difficulty : 4;
-    this.pendingTransactions = [];
+    this.difficulty = difficulty ?? 4;
+    this.pendingTransactions = new Array<Transaction>();
     this.miningReward = 100;
   }
 
@@ -24,7 +24,7 @@ export class Blockchain {
 
   minePendingTransactions(miningRewardAddress: string): void {
     let rewardTx = new Transaction(
-      null,
+      '',
       miningRewardAddress,
       this.miningReward
     );

@@ -1,4 +1,4 @@
-import { Transaction } from './transaction';
+import { Transaction } from './Transaction';
 export declare class Block {
     previousHash: string;
     timestamp: number;

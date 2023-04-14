@@ -1,11 +1,11 @@
 export declare class TBlock<T> {
-    data: T;
     index: number;
     timestamp: number;
     previousHash: string;
+    data: any;
     hash: string;
     nonce: number;
-    constructor(data: T, index: number, timestamp: number, previousHash: string);
+    constructor(index: number, timestamp: number, previousHash: string, data: any);
     calculateHash(): string;
     mineBlock(difficulty: number): void;
     private calculateHashWithNonce;

@@ -1,8 +1,8 @@
 import { TBlockchain } from './TBlockchain/TBlockchain';
 import { TBlock } from './TBlockchain/TBlock';
-import { Block } from "./Blockchain/block";
-import { Blockchain } from "./Blockchain/blockchain";
-import { Transaction } from "./Blockchain/transaction";
+import { Block } from "./Blockchain/Block";
+import { Blockchain } from "./Blockchain/Blockchain";
+import { Transaction } from "./Blockchain/Transaction";
 export default class Typechain<T> extends TBlockchain<T> {
 }
 export declare class TypechainBlock<T> extends TBlock<T> {
