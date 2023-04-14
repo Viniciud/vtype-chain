@@ -1,5 +1,5 @@
 {
-  "name": "typechain",
+  "name": "vtype-chain",
   "version": "0.2.0",
   "description": "Simple Blockchain Library",
   "main": "dist/index.js",
