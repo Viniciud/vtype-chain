@@ -9,7 +9,7 @@ export class TBlockchain<T> {
     constructor(difficulty: number = 4) {
         this.chain = [this.genesisBlock()];
         this.difficulty = difficulty ?? 4;
-        this.pendingTransactions = [];
+        this.pendingTransactions = new Array<T>();
         this.miningReward = 100;
     }
 

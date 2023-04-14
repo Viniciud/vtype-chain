@@ -15,7 +15,7 @@ export class Blockchain {
   }
 
   genesisBlock(): Block {
-    return new Block(Date.now(), [], '0');
+    return new Block(Date.now(), [new Transaction('', '', 0)], '0');
   }
 
   getLastBlock(): Block {
