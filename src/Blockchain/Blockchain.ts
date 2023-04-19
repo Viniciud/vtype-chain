@@ -2,20 +2,20 @@ import { Block } from "./Block";
 import { Transaction } from "./Transaction";
 
 export class Blockchain {
-  chain: Array<Block>;
+  chain: Block[];
   difficulty: number;
   pendingTransactions: Transaction[];
   miningReward: number;
 
-  constructor(difficulty: number = 4) {
-    this.chain = [this.genesisBlock()];
-    this.difficulty = difficulty ?? 4;
-    this.pendingTransactions = new Array<Transaction>();
+  constructor(difficult: number = 4) {
+    this.chain = [this.createGenesisBlock()];
+    this.difficulty = difficult;
+    this.pendingTransactions = new Array<any>();
     this.miningReward = 100;
   }
 
-  genesisBlock(): Block {
-    return new Block(Date.now(), [new Transaction('', '', 0)], '0');
+  createGenesisBlock(): Block {
+    return new Block(Date.now(), [], '0');
   }
 
   getLastBlock(): Block {
@@ -23,14 +23,14 @@ export class Blockchain {
   }
 
   minePendingTransactions(miningRewardAddress: string): void {
-    let rewardTx = new Transaction(
-      '',
+    const rewardTr = new Transaction(
+      null,
       miningRewardAddress,
       this.miningReward
     );
-    this.pendingTransactions.push(rewardTx);
+    this.pendingTransactions.push(rewardTr);
 
-    let block = new Block(
+    const block = new Block(
       Date.now(),
       this.pendingTransactions,
       this.getLastBlock().hash
@@ -44,35 +44,36 @@ export class Blockchain {
 
   addTransaction(transaction: Transaction): void {
     if (!transaction.fromAddress || !transaction.toAddress) {
-      throw new Error('Missing (from address) or (to address) in the transaction.');
+      throw new Error('Missing (from address) or (to address).');
     }
 
     if (!transaction.isValid()) {
-      throw new Error('Invalid transaction');
+      throw new Error('Cannot add invalid transaction.');
     }
 
     if (transaction.amount <= 0) {
-      throw new Error('Transaction amount should not to be 0.');
+      throw new Error('Transaction amount do not be 0.');
     }
 
-    let walletBalance = this.getBalanceByAddress(transaction.fromAddress);
-
+    const walletBalance = this.getBalanceByAddress(transaction.fromAddress);
     if (walletBalance < transaction.amount) {
-      throw new Error('Not enough balance');
+      throw new Error('Balance is not enough.');
     }
 
-    let pendingTrxForWallet = this.pendingTransactions.filter(
-      trx => trx.fromAddress === transaction.fromAddress
+    const pendingTrForWallet = this.pendingTransactions.filter(
+      tr => tr.fromAddress === transaction.fromAddress
     );
 
-    if (pendingTrxForWallet.length > 0) {
-      let totalPendingAmount = pendingTrxForWallet
-        .map(trx => trx.amount)
+    if (pendingTrForWallet.length > 0) {
+      const totalPendingAmount = pendingTrForWallet
+        .map(tr => tr.amount)
         .reduce((prev, curr) => prev + curr);
 
-      let totalAmount = totalPendingAmount + transaction.amount;
+      const totalAmount = totalPendingAmount + transaction.amount;
       if (totalAmount > walletBalance) {
-        throw new Error('Pending transactions for this wallet is higher than its balance.');
+        throw new Error(
+          'Pending transactions for this wallet is higher than its balance.'
+        );
       }
     }
 
@@ -82,26 +83,28 @@ export class Blockchain {
   getBalanceByAddress(address: string): number {
     let balance = 0;
 
-    for (let block of this.chain) {
-      for (let transaction of block.transactions) {
-        if (transaction.fromAddress === address)
+    for (const block of this.chain) {
+      for (const transaction of block.transactions) {
+        if (transaction.fromAddress === address) {
           balance -= transaction.amount;
+        }
 
-        if (transaction.toAddress === address)
+        if (transaction.toAddress === address) {
           balance += transaction.amount;
+        }
       }
     }
 
     return balance;
   }
 
-  getAllTransactionsForWallet(address: string): Array<Transaction> {
-    let transactions = [];
+  getTransactionsByWallet(address: string): Transaction[] {
+    const transactions = [];
 
-    for (let block of this.chain) {
-      for (let trx of block.transactions) {
-        if (trx.fromAddress === address || trx.toAddress === address) {
-          transactions.push(trx);
+    for (const block of this.chain) {
+      for (const tr of block.transactions) {
+        if (tr.fromAddress === address || tr.toAddress === address) {
+          transactions.push(tr);
         }
       }
     }
@@ -109,19 +112,30 @@ export class Blockchain {
     return transactions;
   }
 
-  isValid(): boolean {
-    if (JSON.stringify(this.genesisBlock()) !== JSON.stringify(this.chain[0])) return false;
+  validChain(): boolean {
+    const genesisBlock = JSON.stringify(this.createGenesisBlock());
+
+    if (genesisBlock !== JSON.stringify(this.chain[0])) {
+      return false;
+    }
 
     for (let i = 1; i < this.chain.length; i++) {
-      let currentBlock = this.chain[i];
-      let previousBlock = this.chain[i - 1];
+      const currentBlock = this.chain[i];
+      const previousBlock = this.chain[i - 1];
 
-      if (!currentBlock.hasValidTransactions()) return false;
+      if (previousBlock.hash !== currentBlock.previousHash) {
+        return false;
+      }
 
-      if (currentBlock.hash !== currentBlock.calculateHash()) return false;
+      if (!currentBlock.validTransactions()) {
+        return false;
+      }
 
-      if (previousBlock.hash !== currentBlock.previousHash) return false;
+      if (currentBlock.hash !== currentBlock.calculateHash()) {
+        return false;
+      }
     }
+
     return true;
   }
 }

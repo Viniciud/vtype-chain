@@ -5,9 +5,9 @@ import { Block } from "./Blockchain/Block";
 import { Blockchain } from "./Blockchain/Blockchain";
 import { Transaction } from "./Blockchain/Transaction";
 
-export default class Typechain<T> extends TBlockchain<T> {}
-export class TypechainBlock<T> extends TBlock<T> {}
+export class Typechain extends TBlockchain {}
+export class TypechainBlock extends TBlock {}
 
-export class TypecoinChain extends Blockchain {}
-export class TypecoinTrx extends Transaction {}
+export default class Typecoin extends Blockchain {}
+export class TypeTransaction extends Transaction {}
 export class TypecoinBlock extends Block {}

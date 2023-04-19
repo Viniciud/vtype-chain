@@ -1,6 +1,6 @@
 import sha256 from 'crypto-js/sha256';
 
-export class TBlock<T> {
+export class TBlock {
     hash: string;
     nonce: number;
 

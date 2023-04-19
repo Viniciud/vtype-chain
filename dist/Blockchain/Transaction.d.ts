@@ -5,7 +5,7 @@ export declare class Transaction {
     timestamp: number;
     signature: any;
     constructor(fromAddress: string, toAddress: string, amount: number);
-    calculateHash(): string;
+    calculateHash(): any;
     signTransaction(signingKey: any): void;
-    isValid(): boolean;
+    isValid(): any;
 }

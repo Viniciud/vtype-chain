@@ -6,8 +6,7 @@ export declare class Block {
     nonce: number;
     hash: string;
     constructor(timestamp: number, transactions: Transaction[], previousHash?: string);
-    calculateHash(): string;
+    calculateHash(nonce?: number): string;
     mineBlock(difficulty: number): void;
-    calculateHashWithNonce(nonce: number): string;
-    hasValidTransactions(): boolean;
+    validTransactions(): boolean;
 }

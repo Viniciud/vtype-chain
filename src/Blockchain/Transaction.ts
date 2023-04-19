@@ -17,29 +17,36 @@ export class Transaction {
     this.timestamp = Date.now();
   }
 
-  calculateHash(): string {
+  calculateHash() {
     return sha256(this.fromAddress + this.toAddress + this.amount + this.timestamp).toString();
   }
 
-  signTransaction(signingKey: any): void {
+  signTransaction(signingKey: any) {
+    // You can only send a transaction from the wallet that is linked to your
+    // key. So here we check if the fromAddress matches your publicKey
     if (signingKey.getPublic('hex') !== this.fromAddress) {
-      throw new Error('Cannot sign transactions for other wallets.');
+      throw new Error('You cannot sign transactions for other wallets!');
     }
 
-    let hashTx = this.calculateHash();
-    let sig = signingKey.sign(hashTx, 'base64');
+    // Calculate the hash of this transaction, sign it with the key
+    // and store it inside the transaction object
+    const hashTx = this.calculateHash();
+    const sig = signingKey.sign(hashTx, 'base64');
 
     this.signature = sig.toDER('hex');
   }
 
-  isValid(): boolean {
+  isValid() {
+    // If the transaction doesn't have a from address we assume it's a
+    // mining reward and that it's valid. You could verify this in a
+    // different way (special field for instance)
     if (this.fromAddress === null) return true;
 
     if (!this.signature || this.signature.length === 0) {
-      throw new Error('Transaction has no signature.');
+      throw new Error('No signature in this transaction');
     }
 
-    let publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
+    const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
     return publicKey.verify(this.calculateHash(), this.signature);
   }
 }

@@ -1,32 +1,32 @@
 import { TBlock } from "./TBlock";
 
-export class TBlockchain<T> {
-    chain: Array<TBlock<T>>;
+export class TBlockchain {
+    chain: Array<any>;
     difficulty: number;
-    pendingTransactions: Array<T>;
+    pendingTransactions: Array<any>;
     miningReward: number;
 
     constructor(difficulty: number = 4) {
         this.chain = [this.genesisBlock()];
         this.difficulty = difficulty ?? 4;
-        this.pendingTransactions = new Array<T>();
+        this.pendingTransactions = new Array<any>();
         this.miningReward = 100;
     }
 
-    genesisBlock(): TBlock<T> {
-        return new TBlock<T>(0, 0, '', null);
+    genesisBlock(): TBlock {
+        return new TBlock(0, 0, '', null);
     }
 
-    getLastBlock(): TBlock<T> {
+    getLastBlock(): TBlock {
         return this.chain[this.chain.length - 1];
     }
 
-    generateBlock(data: T): boolean {
+    generateBlock(data: any): boolean {
         let nextIndex = this.getLastBlock().index + 1;
         let nextTimestamp = new Date().getTime() / 1000;
         let previousHash = this.getLastBlock().hash;
 
-        const nextBlock = new TBlock<T>(nextIndex, nextTimestamp, previousHash, data);
+        const nextBlock = new TBlock(nextIndex, nextTimestamp, previousHash, data);
         nextBlock.mineBlock(this.difficulty);
 
         if (this.isValid()) {

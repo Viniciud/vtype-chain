@@ -16,8 +16,8 @@ export class Block {
     this.hash = this.calculateHash();
   }
 
-  calculateHash(): string {
-    return sha256(this.previousHash + this.timestamp + JSON.stringify(this.transactions) + this.nonce).toString();
+  calculateHash(nonce = this.nonce): string {
+    return sha256(this.previousHash + this.timestamp + JSON.stringify(this.transactions) + nonce).toString();
   }
 
   mineBlock(difficulty: number): void {
@@ -27,20 +27,17 @@ export class Block {
 
     while (hash.substring(0, difficulty) !== target) {
       nonce++;
-      hash = this.calculateHashWithNonce(nonce);
+      hash = this.calculateHash(nonce);
     }
+
     this.nonce = nonce;
     this.hash = hash;
     console.log(`Block mined: ${this.hash}`);
   }
-  
-  calculateHashWithNonce(nonce: number): string {
-    return sha256(this.previousHash + this.timestamp + JSON.stringify(this.transactions) + nonce).toString();
-  }
-  
-  hasValidTransactions(): boolean {
-    for (let tx of this.transactions) {
-      if (!tx.isValid()) {
+
+  validTransactions(): boolean {
+    for (const transaction of this.transactions) {
+      if (!transaction.isValid()) {
         return false;
       }
     }

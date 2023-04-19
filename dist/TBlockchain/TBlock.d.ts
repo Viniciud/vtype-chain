@@ -1,4 +1,4 @@
-export declare class TBlock<T> {
+export declare class TBlock {
     index: number;
     timestamp: number;
     previousHash: string;
